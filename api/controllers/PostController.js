@@ -99,7 +99,6 @@ module.exports = {
     const findPostByAuthorIdParams = [id];
     const findPostByAuthorIdResult = await sails.sendNativeQuery(findPostByAuthorIdQuery, findPostByAuthorIdParams);
     const posts = findPostByAuthorIdResult.rows;
-    console.log(posts);
     if(findPostByAuthorIdResult.rows.length <= 0){
       return res.status(404).json({
         message:'No Post with this id has been found',
@@ -172,7 +171,28 @@ module.exports = {
     }
   },
 
-
+  searchPost: async(req, res) => {
+    const searchTerm = req.query.q;
+    if (!searchTerm) {
+      return res.status(400).json({
+        message: 'Search term is required',
+      });
+    }
+    const searchPostsQuery = `SELECT * FROM Post WHERE text LIKE $1`;
+    const searchPostsParams = [`%${searchTerm}%`];
+    const searchPostResult = await sails.sendNativeQuery(searchPostsQuery, searchPostsParams);
+    if(searchPostResult.rows.length<=0){
+      return res.status(400).json({
+        message: 'No Posts found',
+      });
+    }
+    else{
+      return res.status(200).json({
+        message: 'Posts retrieved successfully',
+        posts: searchPostResult.rows
+      });
+    }
+  },
 };
 
 

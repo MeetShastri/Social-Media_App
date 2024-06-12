@@ -19,6 +19,18 @@ module.exports.policies = {
 
   // '*': true,
   PostController:{
-    '*': 'Authorization'
+    '*': 'Authorization',
+  },
+  MessageController:{
+    '*': 'Authorization',
+  },
+  ProfilePicController:{
+    '*': 'Authorization',
+  },
+  FriendrequestController:{
+    '*': 'Authorization',
+  },
+  CommentController:{
+    '*': 'Authorization',
   }
 };

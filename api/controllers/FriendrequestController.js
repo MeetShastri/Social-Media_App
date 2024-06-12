@@ -10,7 +10,6 @@ module.exports = {
 
   sendRequest: async (req, res) => {
     const { sender, receiver } = req.body;
-    console.log(sender, receiver);
     if (!sender || !receiver) {
       return res.status(404).json({
         message: 'All fields are required',
@@ -48,10 +47,8 @@ module.exports = {
       const sendRequestQuery = `INSERT INTO Friendrequest (sender, receiver, status) VALUES ($1, $2, 'pending')`;
       const sendRequestParams = [sender, receiver];
       const sendRequestResult = await sails.sendNativeQuery(sendRequestQuery, sendRequestParams);
-      console.log(sendRequestResult);
       res.status(200).json({ message: 'Friend request sent successfully' });
     } catch (error) {
-      console.error('Error sending friend request:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
   },
@@ -70,7 +67,6 @@ module.exports = {
 
       return res.status(200).json({ message: 'Friend request accepted successfully' });
     } catch (error) {
-      console.error(error);
       return res.status(500).json({ message: 'Failed to accept friend request', error: error.message });
     }
   },
@@ -89,7 +85,6 @@ module.exports = {
 
       return res.status(200).json({ message: 'Friend request declined successfully' });
     } catch (error) {
-      console.error(error);
       return res.status(500).json({ message: 'Failed to decline friend request', error: error.message });
     }
   }

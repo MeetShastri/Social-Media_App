@@ -81,8 +81,6 @@ module.exports = {
     const updateCommentQuery = 'UPDATE Comments SET text = $1 WHERE id = $2';
     const updateCommentParams = [text, commentId];
     const updateCommentResult = await sails.sendNativeQuery(updateCommentQuery, updateCommentParams);
-    console.log(updateCommentQuery);
-    console.log(updateCommentParams);
     if(updateCommentResult.affectedRows>0){
       const findUpdatedCommentQuery = 'SELECT * FROM Comments WHERE id = $1';
       const findUpdatedCommentParams = [commentId];
@@ -124,6 +122,29 @@ module.exports = {
           message:'Comment is not deleted',
         });
       }
+    }
+  },
+
+  searchComment: async(req, res) => {
+    const searchTerm = req.query.q;
+    if (!searchTerm) {
+      return res.status(400).json({
+        message: 'Search term is required',
+      });
+    }
+    const searchCommentsQuery = `SELECT * FROM Comments WHERE text LIKE $1`;
+    const searchCommentsParams = [`%${searchTerm}%`];
+    const searchCommentsResult = await sails.sendNativeQuery(searchCommentsQuery, searchCommentsParams);
+    if(searchCommentsResult.rows.length<=0){
+      return res.status(400).json({
+        message: 'No Comments found',
+      });
+    }
+    else{
+      return res.status(200).json({
+        message: 'Comments retrieved successfully',
+        posts: searchCommentsResult.rows
+      });
     }
   }
 };

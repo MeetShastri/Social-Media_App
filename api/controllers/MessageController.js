@@ -31,7 +31,6 @@ module.exports = {
     const sendMessageQuery = 'INSERT INTO Message (sender, reciever, content) VALUES ($1, $2, $3)';
     const sendMessageParams = [sender, reciever, content];
     const sendMessageResult = await sails.sendNativeQuery(sendMessageQuery, sendMessageParams);
-    console.log(sendMessageResult);
     const id = sendMessageResult.insertId;
     if(sendMessageResult.affectedRows>0){
       const findMessageQuery = 'SELECT * FROM Message WHERE id = $1';
@@ -61,7 +60,6 @@ module.exports = {
     const checkIdQuery = `SELECT * FROM User WHERE id IN ($1, $2)`;
     const checkIdParams = [senderId, recieverId];
     const checkIdResult = await sails.sendNativeQuery(checkIdQuery, checkIdParams);
-    console.log(checkIdResult);
     if (checkIdResult.rows.length !== 2) {
       return res.status(404).json({
         message: 'Either or Both ID not Found',
@@ -120,7 +118,6 @@ module.exports = {
     const findMessageQuery = 'SELECT * FROM Message WHERE id = $1';
     const findMessageParams = [messageid];
     const findMessageResult = await sails.sendNativeQuery(findMessageQuery, findMessageParams);
-    console.log(findMessageResult.rows[0]);
     if(findMessageResult.rows.length<=0){
       return res.status(404).json({
         message:'No Chat wih this ID has found',
@@ -130,7 +127,6 @@ module.exports = {
       const deleteMessageQuery = 'DELETE FROM Message WHERE id = $1';
       const deleteMessageParams = [messageid];
       const deleteMessageResult = await sails.sendNativeQuery(deleteMessageQuery, deleteMessageParams);
-      console.log(deleteMessageResult);
       if(deleteMessageResult.affectedRows>0){
         return res.status(200).json({
           message:'Message has been deleted successfully',
@@ -143,7 +139,8 @@ module.exports = {
         });
       }
     }
-  }
+  },
+
 
 };
 

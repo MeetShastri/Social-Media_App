@@ -81,7 +81,7 @@ module.exports = {
         email: user.email
       };
 
-      const token = await jwt.sign(tokenObject, 'abcde', { expiresIn: '60s' });
+      const token =  jwt.sign(tokenObject, 'abcde', { expiresIn: '12hr' });
 
 
       const otp = totp.generate('secret');
@@ -115,7 +115,7 @@ module.exports = {
 
   getUserById: async(req, res) => {
     const id = req.params.userid;
-    const getUserByIdQuery = 'SELECT id, firstName, lastName, email FROM User WHERE id = $1';
+    const getUserByIdQuery = 'select U.id as User_Id, U.firstName as First_Name, U.lastName as Last_Name, U.email as Email, U.password as Password, P.imageName as Image_Name, P.imagePath as ImagePath from User U left join Profilepic P on U.id = P.userId WHERE U.id = $1';
     const getUserByIdParams = [id];
     const getUserByIdResult = await sails.sendNativeQuery(getUserByIdQuery, getUserByIdParams);
     const user = getUserByIdResult.rows[0];
@@ -158,7 +158,6 @@ module.exports = {
       const getUserByIdQuery = 'SELECT id, firstName, lastName, email FROM User WHERE id = $1';
       const getUserByIdParams = [userid];
       const getUserByIdResult = await sails.sendNativeQuery(getUserByIdQuery, getUserByIdParams);
-      console.log(getUserByIdResult);
       res.status(200).json({
         message:'User has been updated',
         updatedUser:getUserByIdResult.rows
@@ -222,6 +221,39 @@ module.exports = {
         message:'Old Password is not matching',
       });
     }
+  },
+
+
+  searchUsers: async (req, res) => {
+    const searchTerm = req.query.q;
+    if (!searchTerm) {
+      return res.status(400).json({ message: 'Search term is required' });
+    }
+
+    const searchUsersQuery = `
+      SELECT * FROM User 
+      WHERE firstName LIKE $1 OR lastName LIKE $1 OR email LIKE $1
+    `;
+    const searchUsersParams = [`%${searchTerm}%`];
+
+    try {
+      const result = await sails.sendNativeQuery(searchUsersQuery, searchUsersParams);
+      if(result.rows.length<=0){
+        return res.status(400).json({
+          message: 'No Users found',
+        });
+      }
+      return res.status(200).json({
+        message: 'Users retrieved successfully',
+        users: result.rows
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error retrieving users',
+        error: error.message
+      });
+    }
   }
+
 };
 

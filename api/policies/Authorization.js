@@ -8,13 +8,11 @@ module.exports = async function (req, res, next) {
     }
     const token = req.headers['authorization'];
     const decoded = jwt.verify(token, 'abcde');
-    console.log(decoded);
     if(!decoded){
       return res.json({
         message:'Invalid token'
       });
     }
-    console.log(decoded.email);
     const findUserQuery = 'SELECT email FROM User WHERE email = $1';
     const findUserParams = [decoded.email];
     const findUserResult = await sails.sendNativeQuery(findUserQuery, findUserParams);

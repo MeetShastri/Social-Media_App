@@ -44,6 +44,10 @@ module.exports = {
     recieveMessage:{
       collection:'message',
       via:'reciever'
+    },
+    profilePic:{
+      collection:'profilepic',
+      via:'userId'
     }
   },
 
