@@ -36,6 +36,14 @@ module.exports = {
     recievedRequests:{
       collection:'friendrequest',
       via: 'reciever'
+    },
+    sendMessage:{
+      collection:'message',
+      via:'sender'
+    },
+    recieveMessage:{
+      collection:'message',
+      via:'reciever'
     }
   },
 

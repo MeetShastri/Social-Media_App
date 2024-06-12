@@ -35,7 +35,7 @@ module.exports = {
       }
 
       // Check for user IDs (assuming separate query for efficiency)
-      const checkIdQuery = `SELECT * FROM User WHERE id IN ($1, $2)`;
+      const checkIdQuery = `SELECT * FROM User WHERE (id = $1 AND id = $2)`;
       const checkIdParams = [sender, receiver];
       const checkIdResult = await sails.sendNativeQuery(checkIdQuery, checkIdParams);
       if (checkIdResult.rows.length <= 0) {

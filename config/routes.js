@@ -31,4 +31,9 @@ module.exports.routes = {
   'POST /friendrequest/sendrequest' : 'FriendrequestController.sendRequest',
   'POST /friendrequest/acceptrequest' : 'FriendrequestController.acceptRequest',
   'POST /friendrequest/declinerequest' : 'FriendrequestController.declineRequest',
+
+  'POST /message/sendmessage' : 'MessageController.sendMessage',
+  'GET /message/getmessage' : 'MessageController.getMessages',
+  'PATCH /message/updatemessage/:messageid' : 'MessageController.updateMessage',
+  'DELETE /message/deletemessage/:messageid' : 'MessageController.deleteMessage',
 };
