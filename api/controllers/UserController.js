@@ -81,7 +81,7 @@ module.exports = {
         email: user.email
       };
 
-      const token = await jwt.sign(tokenObject, 'abcde', { expiresIn: '4h' });
+      const token = await jwt.sign(tokenObject, 'abcde', { expiresIn: '60s' });
 
 
       const otp = totp.generate('secret');
@@ -185,6 +185,41 @@ module.exports = {
     else{
       return res.status(404).json({
         message: 'No OTP found for the provided email'
+      });
+    }
+  },
+
+  userResetPassword: async(req, res) => {
+    const {email, oldPassword, newPassword} = req.body;
+    if(!email || !oldPassword || !newPassword){
+      res.status(404).json({
+        message:'All fields are required'
+      });
+    }
+    const getUserByEmailQuery = 'SELECT *  FROM User WHERE email = $1';
+    const getUserByIdEmailParams = [email];
+    const getUserByEmailResult = await sails.sendNativeQuery(getUserByEmailQuery, getUserByIdEmailParams);
+    const user = getUserByEmailResult.rows[0];
+    if(getUserByEmailResult.rows.length<=0){
+      res.status(404).json({
+        message:'No User found with this Email ID',
+      });
+    }
+    const passwordCheck = await bcrypt.compare( oldPassword, user.password);
+    if(passwordCheck){
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      const changePasswordQuery = 'UPDATE User SET password = $1 WHERE email = $2';
+      const changePasswordParams = [hashedNewPassword, email];
+      const changePasswordResult = await sails.sendNativeQuery(changePasswordQuery, changePasswordParams);
+      if(changePasswordResult.affectedRows > 0){
+        return res.status(200).json({
+          message:'Your Password has been reset successfully',
+        });
+      }
+    }
+    else{
+      return res.status(404).json({
+        message:'Old Password is not matching',
       });
     }
   }

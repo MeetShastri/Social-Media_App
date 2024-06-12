@@ -24,6 +24,18 @@ module.exports = {
     password:{
       type: 'string',
       required:true
+    },
+    posts: {
+      collection: 'post',
+      via: 'author',
+    },
+    sentRequests:{
+      collection:'friendrequest',
+      via: 'sender'
+    },
+    recievedRequests:{
+      collection:'friendrequest',
+      via: 'reciever'
     }
   },
 

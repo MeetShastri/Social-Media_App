@@ -15,4 +15,20 @@ module.exports.routes = {
   'GET /user/getuserbyid/:userid' : 'UserController.getUserById',
   'PATCH /user/updateuser/:userid' : 'UserController.updateUserDetails',
   'POST /user/recieveotp' : 'UserController.recieveOtp',
+  'POST /user/userresetpassword' : 'UserController.userResetPassword',
+
+  'POST /post/addpost' : 'PostController.addPost',
+  'GET /post/getpostbypostid/:postid' : 'PostController.getPostById',
+  'GET /post/getpostbyauthorid/:authorid' : 'PostController.getPostByAuthorId',
+  'PATCH /post/updatepost/:postid' : 'PostController.updatePost',
+  'DELETE /post/deletepost/:postid' : 'PostController.deletePost',
+
+  'POST /comment/addcomment' : 'CommentController.addComment',
+  'GET /comment/getcomment/:postid' : 'CommentController.getCommentByPost',
+  'PATCH /comment/updatecomment/:commentid' : 'CommentController.updateComment',
+  'DELETE /comment/deletecomment/:commentid' : 'CommentController.deleteComment',
+
+  'POST /friendrequest/sendrequest' : 'FriendrequestController.sendRequest',
+  'POST /friendrequest/acceptrequest' : 'FriendrequestController.acceptRequest',
+  'POST /friendrequest/declinerequest' : 'FriendrequestController.declineRequest',
 };

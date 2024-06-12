@@ -23,7 +23,23 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    text:{
+      type: 'string',
+      required: true
+    },
+    author:{
+      model: 'user',
+      required: true
+    },
+    post:{
+      model: 'post',
+      required: true
+    },
+    createdAt: {
+      type: 'ref',
+      columnType: 'datetime',
+      autoCreatedAt: true,
+    }
   },
-
 };
 
