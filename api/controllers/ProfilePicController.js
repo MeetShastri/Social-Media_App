@@ -7,6 +7,7 @@
 const path = require('path');
 module.exports = {
 
+  //Controller for uploading the Profile Pic
   uploadProfilePic: async(req, res) => {
     req.file('image').upload({
       dirname: path.resolve(sails.config.appPath, 'assets/images')
@@ -57,6 +58,7 @@ module.exports = {
     });
   },
 
+  //Controller for Getting the Profile Pic
   getProfilePic: async(req, res) => {
     const userid = req.params.userid;
     const findProfilePicQuery = 'SELECT * FROM Profilepic WHERE userId = $1';
@@ -75,6 +77,7 @@ module.exports = {
     }
   },
 
+  //Controller for updating the Profile Pic
   updateProfilePic: async(req, res) => {
     const userId = req.params.userid;
     if (!userId) {
@@ -150,6 +153,7 @@ module.exports = {
     });
   },
 
+  //Controller for deleting the Profile Pic
   deleteProfilePic: async(req, res) => {
     const userId = req.params.userid;
     if(!userId){

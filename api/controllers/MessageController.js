@@ -7,6 +7,7 @@
 
 module.exports = {
 
+  //Controller for Sending the Message
   sendMessage: async(req, res) => {
     const {sender, reciever, content} = req.body;
     if(!sender || !reciever || !content){
@@ -50,6 +51,7 @@ module.exports = {
     }
   },
 
+  //Controller for Getting the Messages
   getMessages: async(req, res) => {
     const {senderId, recieverId, page = 1, limit = 10} = req.query;
     if(!senderId || !recieverId){
@@ -86,6 +88,7 @@ module.exports = {
     }
   },
 
+  //Controller for Updating the Messages
   updateMessage: async(req, res) => {
     const messageid = req.params.messageid;
     const {content}  = req.body;
@@ -113,6 +116,7 @@ module.exports = {
     }
   },
 
+  //Controller for deleting the Message
   deleteMessage: async(req, res) => {
     const messageid = req.params.messageid;
     const findMessageQuery = 'SELECT * FROM Message WHERE id = $1';

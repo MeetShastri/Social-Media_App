@@ -7,6 +7,7 @@
 const path = require('path');
 module.exports = {
 
+  //Controller for adding the post
   addPost: async (req, res) => {
 
     req.file('image').upload({
@@ -73,6 +74,7 @@ module.exports = {
     });
   },
 
+  //Controller for getting the Post by ID
   getPostById: async(req, res) => {
     const id = req.params.postid;
     const findPostByIdQuery = 'select P.id as Post_id, P.text as Post_text, P.imagePath as Post_imagePath, P.likes as Post_likes, P.author as Post_Author, C.id as Comment_id, C.text as Comment, C.author as Comment_Author, C.post as Comment_On_Post from Post P left join Comments C on P.id = C.author WHERE P.id = $1';
@@ -92,7 +94,7 @@ module.exports = {
     }
   },
 
-
+  //Controller for getting Post by Author ID
   getPostByAuthorId: async(req, res) => {
     const id = req.params.authorid;
     const findPostByAuthorIdQuery = 'select P.id as Post_id, P.text as Post_Text, P.imagePath as Post_ImagePath, P.author as Post_Creator, P.likes as Post_likes, C.id as Comment_ID, C.text as Comment_text, C.author as Comment_Creator, C.post as Comment_On_Post from post P  left join comments C on P.id = C.post WHERE P.author = $1';
@@ -112,6 +114,7 @@ module.exports = {
     }
   },
 
+  //Controller for Updating Post
   updatePost: async(req, res) => {
     const postid = req.params.postid;
     const {text, comments} = req.body;
@@ -142,6 +145,7 @@ module.exports = {
     }
   },
 
+  //Controller for deleting the Post
   deletePost: async(req, res) => {
     const id = req.params.postid;
     const findPostQuery = 'SELECT * FROM Post WHERE id = $1';
@@ -171,6 +175,7 @@ module.exports = {
     }
   },
 
+  //Controller for Searching Post
   searchPost: async(req, res) => {
     const searchTerm = req.query.q;
     if (!searchTerm) {

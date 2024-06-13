@@ -10,6 +10,7 @@ const jwt = require ('jsonwebtoken');
 const { totp } = require('otplib');
 module.exports = {
 
+  //Controller for User Sign Up
   userSignUp: async(req, res) => {
     const {firstName, lastName, email, password} = req.body;
     if(!firstName || !lastName || !email || !password){
@@ -58,6 +59,7 @@ module.exports = {
     }
   },
 
+  //Controlller for User Sign In
   userSignIn: async (req, res) => {
     const { email, password } = req.body;
     const checkEmailQuery = 'SELECT * FROM User WHERE email = $1';
@@ -112,7 +114,7 @@ module.exports = {
     }
   },
 
-
+  //Controller for Getting user by ID
   getUserById: async(req, res) => {
     const id = req.params.userid;
     const getUserByIdQuery = 'select U.id as User_Id, U.firstName as First_Name, U.lastName as Last_Name, U.email as Email, U.password as Password, P.imageName as Image_Name, P.imagePath as ImagePath from User U left join Profilepic P on U.id = P.userId WHERE U.id = $1';
@@ -132,6 +134,7 @@ module.exports = {
     }
   },
 
+  //Controller for updating th User details
   updateUserDetails: async(req, res) => {
     const userid = req.params.userid;
     const {firstName, lastName, email} = req.body;
@@ -165,6 +168,7 @@ module.exports = {
     }
   },
 
+  //Controller for Recieving the OTP
   recieveOtp: async(req, res) => {
     const {email, otp} = req.body;
     const savedOtp = sails.config.custom.otpCache[email];
@@ -188,6 +192,7 @@ module.exports = {
     }
   },
 
+  //Controller for Reset the Password
   userResetPassword: async(req, res) => {
     const {email, oldPassword, newPassword} = req.body;
     if(!email || !oldPassword || !newPassword){
@@ -223,7 +228,7 @@ module.exports = {
     }
   },
 
-
+  //Controller for Searching the users
   searchUsers: async (req, res) => {
     const searchTerm = req.query.q;
     if (!searchTerm) {

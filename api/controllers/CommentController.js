@@ -7,6 +7,7 @@
 
 module.exports = {
 
+  //  Controller for adding Comment
   addComment: async(req, res) => {
     const {text, author, post} = req.body;
     if(!text || !author || !post){
@@ -49,6 +50,7 @@ module.exports = {
     }
   },
 
+  //Controller for getting Comment by Post ID
   getCommentByPost: async(req, res) => {
     const postid = req.params.postid;
     const findCommentQuery = 'SELECT C.id as Comment_ID, C.text as Comment, C.author as Comment_CreatedBy, C.post as Comment_OnPost FROM Comments C WHERE post = $1';
@@ -67,6 +69,7 @@ module.exports = {
     }
   },
 
+  //Controller for updating the Comment
   updateComment: async(req, res) => {
     const commentId = req.params.commentid;
     const {text} = req.body;
@@ -97,6 +100,7 @@ module.exports = {
     }
   },
 
+  //Controller for deletng the Comment
   deleteComment: async(req, res) => {
     const commentId = req.params.commentid;
     const findCommentQuery = 'SELECT * FROM Comments WHERE id = $1';
@@ -125,6 +129,7 @@ module.exports = {
     }
   },
 
+  //Controller for Searching the comment
   searchComment: async(req, res) => {
     const searchTerm = req.query.q;
     if (!searchTerm) {

@@ -7,7 +7,7 @@
 
 module.exports = {
 
-
+  //Controller for Sending the friend Request
   sendRequest: async (req, res) => {
     const { sender, receiver } = req.body;
     if (!sender || !receiver) {
@@ -53,6 +53,7 @@ module.exports = {
     }
   },
 
+  //Controller for Accepting the Friend Request
   acceptRequest: async(req, res) => {
     try {
       const { requestId } = req.body;
@@ -71,6 +72,7 @@ module.exports = {
     }
   },
 
+  //Controller for Declining the Friend Request
   declineRequest: async(req, res) => {
     try {
       const { requestId } = req.body;
